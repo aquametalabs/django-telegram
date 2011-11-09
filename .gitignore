@@ -1,0 +1,6 @@
+build
+dist
+django_telegram.egg-info
+*.pyc
+*.swp
+*.swo
