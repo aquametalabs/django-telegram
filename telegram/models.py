@@ -28,22 +28,34 @@ class Subscription(models.Model):
             through='SubscriptionPlatform')
     disabled = models.BooleanField(default=False)
 
+    def __unicode__(self):
+        return '%s subscribed to: %s' % (self.user.username, self.message_channel.name)
+
 
 class SubscriptionMeta(models.Model):
 
     value = models.TextField()
     subscription = models.ForeignKey('Subscription')
 
+    def __unicode__(self):
+        return self.value
+
 
 class Channel(models.Model):
 
     name = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Platform(models.Model):
 
     name = models.CharField(max_length=255)
     handler = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.name
 
 
 class SubscriptionPlatform(models.Model):
