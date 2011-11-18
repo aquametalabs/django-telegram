@@ -22,9 +22,10 @@ def send_telegram(channel, subject, message, level):
 
 
 def _build_telegrams(channel, subject, message, level):
-    telegram = Telegram(subject=subject, message=Message, level=level)
+    telegram = Telegram(subject=subject, message=message, level=level)
     telegram.save()
-    subscriptions = Subscription.objects.filter(channel=channel, level=level)
+    subscriptions = Subscription.objects.filter(
+            channel=channel, level=level, disabled=False)
     for subscription in subscriptions:
         for sub_plat in Subscription.subscriptionplatform_set.all():
             send_log = SendLog(
@@ -32,3 +33,9 @@ def _build_telegrams(channel, subject, message, level):
                     subscription_platform=sub_plat
             )
             send_log.save()
+
+
+def send_all_unsent_telegrams():
+    send_logs = SendLog.objects.filter(sent=False)
+    for send_log in send_logs:
+        handler = 'a'
