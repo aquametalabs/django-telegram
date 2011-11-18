@@ -21,6 +21,7 @@ LEVEL_CHOICES = (
 class Subscription(models.Model):
 
     user = models.ForeignKey(User)
+#TODO: Change message_channel to channel
     message_channel = models.ForeignKey('Channel')
     level = models.IntegerField(default=INFO,
             choices=LEVEL_CHOICES)
@@ -29,7 +30,8 @@ class Subscription(models.Model):
     disabled = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return '%s subscribed to: %s' % (self.user.username, self.message_channel.name)
+        return '%s subscribed to: %s' % (self.user.username,
+                self.message_channel.name)
 
 
 class SubscriptionMeta(models.Model):

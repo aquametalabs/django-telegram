@@ -1,7 +1,9 @@
+from datetime import datetime
+
 from telegram.models import (Telegram, SendLog, Channel, LEVEL_CHOICES,
         Subscription)
 from telegram.exceptions import ChannelDoesNotExist, LevelDoesNotExist
-from telegram.utils import import_handler
+from telegram.utils import import_class
 
 
 def send_telegram(channel, subject, message, level):
@@ -12,8 +14,8 @@ def send_telegram(channel, subject, message, level):
                 ' with sending the message.' % channel)
     existing_level = None
     for lvl in LEVEL_CHOICES:
-        if lvl[0] == level.upper():
-            existing_level = level
+        if lvl[1] == level.upper():
+            existing_level = lvl[0]
             break
         else:
             continue
@@ -24,12 +26,17 @@ def send_telegram(channel, subject, message, level):
 
 
 def _build_telegrams(channel, subject, message, level):
-    telegram = Telegram(subject=subject, message=message, level=level)
+    telegram = Telegram(
+            subject=subject,
+            content=message,
+            level=level,
+            channel=channel)
     telegram.save()
+    #TODO: Change message_channel to channel
     subscriptions = Subscription.objects.filter(
-            channel=channel, level=level, disabled=False)
+            message_channel=channel, level=level, disabled=False)
     for subscription in subscriptions:
-        for sub_plat in Subscription.subscriptionplatform_set.all():
+        for sub_plat in subscription.subscriptionplatform_set.all():
             send_log = SendLog(
                     telegram=telegram,
                     subscription_platform=sub_plat
@@ -42,4 +49,13 @@ def send_all_unsent_telegrams():
     for send_log in send_logs:
         platform = send_log.subscription_platform.platform
         subscription = send_log.subscription_platform.subscription
-        handler = import_handler(platform.handler)
+        telegram = send_log.telegram
+        handler = import_class(platform.handler)
+        handler = handler(telegram, subscription)
+        try:
+            handler.handle()
+            send_log.sent = True
+            send_log.sent_at = datetime.now()
+            send_log.save()
+        except Exception:
+            raise Exception('something bad happened')
