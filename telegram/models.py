@@ -46,6 +46,7 @@ class SubscriptionMeta(models.Model):
 class Channel(models.Model):
 
     name = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
         return self.name
