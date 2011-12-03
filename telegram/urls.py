@@ -1,0 +1,26 @@
+from django.conf.urls.defaults import patterns, url
+
+
+urlpatterns = patterns('telegram.views',
+        url(r'^channels/$', 'channel_list', name='telegram_channel_list'),
+        url(r'^channels/(?P<channel_id>\d+)/$', 'channel_view', name='telegram_channel_view'),
+        url(r'^channels/new/$', 'channel_new', name='telegram_channel_new'),
+        url(r'^channels/create/$', 'channel_create', name='telegram_channel_create'),
+        url(r'^channels/(?P<channel_id>\d+)/edit/$', 'channel_edit', name='telegram_channel_edit'),
+        url(r'^channels/(?P<channel_id>\d+)/update/$', 'channel_update', name='telegram_channel_update'),
+        url(r'^channels/(?P<channel_id>\d+)/delete/$', 'channel_delete', name='telegram_channel_delete'),
+        url(r'^platforms/$', 'platform_list', name='telegram_platform_list'),
+        url(r'^platforms/(?P<platform_id>\d+)/$', 'platform_view', name='telegram_platform_view'),
+        url(r'^platforms/new/$', 'platform_new', name='telegram_platform_new'),
+        url(r'^platforms/create/$', 'platform_create', name='telegram_platform_create'),
+        url(r'^platforms/(?P<platform_id>\d+)/edit/$', 'platform_edit', name='telegram_platform_edit'),
+        url(r'^platforms/(?P<platform_id>\d+)/update/$', 'platform_update', name='telegram_platform_update'),
+        url(r'^platforms/(?P<platform_id>\d+)/delete/$', 'platform_delete', name='telegram_platform_delete'),
+        url(r'^subscriptions/$', 'subscription_list', name='telegram_subscription_list'),
+        url(r'^subscriptions/(?P<subscription_id>\d+)/$', 'subscription_view', name='telegram_subscription_view'),
+        url(r'^subscriptions/new/$', 'subscription_new', name='telegram_subscription_new'),
+        url(r'^subscriptions/create/$', 'subscription_create', name='telegram_subscription_create'),
+        url(r'^subscriptions/(?P<subscription_id>\d+)/edit/$', 'subscription_edit', name='telegram_subscription_edit'),
+        url(r'^subscriptions/(?P<subscription_id>\d+)/update/$', 'subscription_update', name='telegram_subscription_update'),
+        url(r'^subscriptions/(?P<subscription_id>\d+)/delete/$', 'subscription_delete', name='telegram_subscription_delete'),
+)

@@ -21,8 +21,7 @@ LEVEL_CHOICES = (
 class Subscription(models.Model):
 
     user = models.ForeignKey(User)
-#TODO: Change message_channel to channel
-    message_channel = models.ForeignKey('Channel')
+    channel = models.ForeignKey('Channel')
     level = models.IntegerField(default=INFO,
             choices=LEVEL_CHOICES)
     platforms = models.ManyToManyField('Platform',
@@ -31,7 +30,7 @@ class Subscription(models.Model):
 
     def __unicode__(self):
         return '%s subscribed to: %s' % (self.user.username,
-                self.message_channel.name)
+                self.channel.name)
 
 
 class SubscriptionMeta(models.Model):

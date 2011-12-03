@@ -32,9 +32,8 @@ def _build_telegrams(channel, subject, message, level):
             level=level,
             channel=channel)
     telegram.save()
-    #TODO: Change message_channel to channel
     subscriptions = Subscription.objects.filter(
-            message_channel=channel, level=level, disabled=False)
+            channel=channel, level=level, disabled=False)
     for subscription in subscriptions:
         for sub_plat in subscription.subscriptionplatform_set.all():
             send_log = SendLog(
