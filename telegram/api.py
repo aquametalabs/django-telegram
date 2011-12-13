@@ -50,11 +50,8 @@ def send_all_unsent_telegrams():
         subscription = send_log.subscription_platform.subscription
         telegram = send_log.telegram
         handler = import_class(platform.handler)
-        handler = handler(telegram, subscription)
-        try:
-            handler.handle()
-            send_log.sent = True
-            send_log.sent_at = datetime.now()
-            send_log.save()
-        except Exception:
-            raise Exception('something bad happened')
+        handler = handler(telegram, subscription, platform)
+        handler.handle()
+        send_log.sent = True
+        send_log.sent_at = datetime.now()
+        send_log.save()

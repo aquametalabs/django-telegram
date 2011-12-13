@@ -10,12 +10,17 @@ class SubscriptionPlatformInline(admin.TabularInline):
 
 class SubscriptionAdmin(admin.ModelAdmin):
 
+    fields = ('channel', 'level', 'disabled',)
     inlines = (SubscriptionPlatformInline,)
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        obj.save()
 
 
 class PlatformAdmin(admin.ModelAdmin):
 
-    inlines = (SubscriptionPlatformInline,)
+    pass
 
 
 admin.site.register(Telegram)

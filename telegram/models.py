@@ -35,6 +35,7 @@ class Subscription(models.Model):
 
 class SubscriptionMeta(models.Model):
 
+    key = models.CharField(max_length=255)
     value = models.TextField()
     subscription = models.ForeignKey('Subscription')
 
@@ -60,6 +61,16 @@ class Platform(models.Model):
         return self.name
 
 
+class PlatformMeta(models.Model):
+
+    key = models.CharField(max_length=255)
+    value = models.TextField()
+    platform = models.ForeignKey('Platform')
+
+    def __unicode__(self):
+        return self.key
+
+
 class SubscriptionPlatform(models.Model):
 
     subscription = models.ForeignKey('Subscription')
@@ -73,6 +84,9 @@ class Telegram(models.Model):
     content = models.TextField()
     level = models.IntegerField(choices=LEVEL_CHOICES)
     created_at = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return '%s: %s' % (self.channel, self.subject)
 
 
 class SendLog(models.Model):
