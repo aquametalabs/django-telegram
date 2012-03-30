@@ -1,11 +1,11 @@
 from django.core.mail import send_mail
 from django.conf import settings
 
-from telegram.handlers.base import BaseHandler
+from telegram.handlers.base import BasePlatformHandler
 from telegram.models import PlatformMeta
 
 
-class EmailHandler(BaseHandler):
+class EmailHandler(BasePlatformHandler):
 
     def handle(self):
         """

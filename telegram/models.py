@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from jsonfield import JSONField
+
 DEBUG = 1
 INFO = 2
 SUCCESS = 3
@@ -29,7 +31,8 @@ class Subscription(models.Model):
     disabled = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return '%s subscribed to: %s' % (self.user.username,
+        return '%d - %s subscribed to: %s' % (self.pk,
+                self.user.username,
                 self.channel.name)
 
 
@@ -47,6 +50,7 @@ class Channel(models.Model):
 
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
+    handler = models.CharField(max_length=255, null=True, blank=True)
 
     def __unicode__(self):
         return self.name
@@ -83,6 +87,7 @@ class Telegram(models.Model):
     subject = models.CharField(max_length=255)
     content = models.TextField()
     level = models.IntegerField(choices=LEVEL_CHOICES)
+    additional_arguments = JSONField()
     created_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
