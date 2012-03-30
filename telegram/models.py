@@ -43,7 +43,7 @@ class SubscriptionMeta(models.Model):
     subscription = models.ForeignKey('Subscription')
 
     def __unicode__(self):
-        return self.value
+        return '%s: %s' % (self.key, self.value)
 
 
 class Channel(models.Model):
@@ -59,6 +59,7 @@ class Channel(models.Model):
 class Platform(models.Model):
 
     name = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
     handler = models.CharField(max_length=255)
 
     def __unicode__(self):

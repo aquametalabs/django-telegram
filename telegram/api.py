@@ -8,12 +8,10 @@ from telegram.exceptions import ChannelDoesNotExist, LevelDoesNotExist
 from telegram.utils import import_class
 
 
-USER_MESSAGE = 'user-message'
-SPECIAL_CHANNELS = (USER_MESSAGE,)
 FORCE_QUEUEING = getattr(settings, 'TELEGRAM_FORCE_QUEUEING', False)
 
 
-def send_telegram(channel, subject, message, level, add_to_queue=True, **kwargs):
+def send_telegram(channel, subject, message, level='INFO', add_to_queue=True, **kwargs):
     try:
         channel = Channel.objects.get(name=channel)
     except Channel.DoesNotExist:
