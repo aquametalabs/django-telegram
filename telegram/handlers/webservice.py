@@ -10,7 +10,8 @@ from telegram.handlers.base import BasePlatformHandler
 class WebserviceHandler(BasePlatformHandler):
 
     def handle(self):
-        webservice_url = self.subscription.subscriptionmeta_set.get(key='webservice_url').value
+        webservice_url = self.subscription.subscriptionmeta_set.get(
+                key='webservice_url').value
         payload = json.dumps({
                 'channel': self.subscription.channel.name,
                 'subject': self.telegram.subject,

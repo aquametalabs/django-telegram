@@ -18,9 +18,13 @@ class EmailHandler(BasePlatformHandler):
             subject = '%s: %s' % (meta.value, self.telegram.subject)
         except PlatformMeta.DoesNotExist:
             subject = self.telegram.subject
+        try:
+            from_address = self.platform.platformmeta_set.get(key='from_address').value
+        except PlatformMeta.DoesNotExist:
+            from_address = settings.TELEGRAM_EMAIL_HANDLER_FROM
         send_mail(
                 subject,
                 self.telegram.content,
-                settings.TELEGRAM_EMAIL_HANDLER_FROM,
+                from_address,
                 [self.subscription.subscriptionmeta_set.get(key='email_address').value])
 
