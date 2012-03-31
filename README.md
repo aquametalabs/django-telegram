@@ -51,6 +51,19 @@ Django admin and navigate to telegram. Add a new channel and give it a name, des
     from `telegram.handlers.base.BaseChannelHandler` and must implement a `handle(self)` method. This method is called when you broadcast to a channel 
     and expects a Subscription query set to be returned.
 
+```
+from telegram.handlers.base import BaseChannelhandler
+from telegram.models import Subscription
+
+
+class WorkChannelHandler(BaseChannelHandler):
+
+    def handle(self):
+        return Subscription.objects.filter(
+            user__id=self.subscription.subscriptionmeta_set.get(key="special_user_id").value
+            )
+
+```
 
 2. Platforms:
 
@@ -63,6 +76,19 @@ Django admin and navigate to telegram. Add a new channel and give it a name, des
 4. Subscription meta data:
 
 5. 
+
+```
+import telegram
+
+
+def some_view_that_does_work(request):
+    work = do_some_work()
+    if work:
+        telegram.broadcase(
+            channel='all-work',
+            subject='work finished',
+            content=work.description_of_work)
+```
 
 Credits
 =======
