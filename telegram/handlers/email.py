@@ -1,11 +1,11 @@
 from django.core.mail import send_mail
 from django.conf import settings
 
-from telegram.handlers.base import BaseHandler
+from telegram.handlers.base import BasePlatformHandler
 from telegram.models import PlatformMeta
 
 
-class EmailHandler(BaseHandler):
+class EmailHandler(BasePlatformHandler):
 
     def handle(self):
         """
@@ -18,9 +18,13 @@ class EmailHandler(BaseHandler):
             subject = '%s: %s' % (meta.value, self.telegram.subject)
         except PlatformMeta.DoesNotExist:
             subject = self.telegram.subject
+        try:
+            from_address = self.platform.platformmeta_set.get(key='from_address').value
+        except PlatformMeta.DoesNotExist:
+            from_address = settings.TELEGRAM_EMAIL_HANDLER_FROM
         send_mail(
                 subject,
                 self.telegram.content,
-                settings.TELEGRAM_EMAIL_HANDLER_FROM,
+                from_address,
                 [self.subscription.subscriptionmeta_set.get(key='email_address').value])
 

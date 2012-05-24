@@ -1,0 +1,29 @@
+[
+    {
+        "pk": 1,
+        "model": "telegram.platform",
+        "fields": {
+            "handler": "telegram.handlers.email.EmailHandler",
+            "name": "email",
+            "description": "This will email the telegram"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "telegram.platform",
+        "fields": {
+            "handler": "telegram.handlers.dummy.DummyHandler",
+            "name": "dummy",
+            "description": "This just writes to STDOUT for debugging"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "telegram.platform",
+        "fields": {
+            "handler": "telegram.handlers.webservice.WebserviceHandler",
+            "name": "webservice",
+            "description": "This will POST your telegram to a URL"
+        }
+    }
+]

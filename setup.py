@@ -19,6 +19,7 @@ setup(name='django-telegram',
       zip_safe=False,
       install_requires=[
           # -*- Extra requirements: -*-
+          'django-jsonfield',
       ],
       entry_points="""
       # -*- Entry points: -*-
