@@ -94,6 +94,10 @@ class Telegram(models.Model):
     def __unicode__(self):
         return '%s: %s' % (self.channel, self.subject)
 
+    @property
+    def extras(self):
+        return self. additional_arguments
+
 
 class SendLog(models.Model):
 
